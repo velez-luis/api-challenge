@@ -2,6 +2,8 @@ package com.modyo.challenge.pokeapi.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,13 +19,14 @@ public class PokemonDetailed {
 	private	Integer	weight;
 	private	List<Ability> abilities;
 	private NamedApiResource species;
-	private	Integer	base_experience;
+	@JsonProperty("base_experience")
+	private	Integer	baseExperience;
 	private	Integer	height;
     private Sprites sprites;
-    private EvolutionChainURL evolution_chain;
+	@JsonProperty("evolution_chain")
+    private EvolutionChainURL evolutionChain;
     private EvolutionChain chain;
     private List<Stat> stats;
     private List<String> descripcion;
-//    private List<Characteristic>
 
 }

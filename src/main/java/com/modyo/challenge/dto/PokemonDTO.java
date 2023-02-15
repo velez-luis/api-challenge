@@ -13,6 +13,6 @@ public class PokemonDTO {
 	private	List<String> type;
 	private	Integer	weight;
 	private	List<String> abilities;
-	private String url;
+	private  String url;
 
 }

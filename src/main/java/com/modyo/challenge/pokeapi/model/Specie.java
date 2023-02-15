@@ -1,11 +1,15 @@
 package com.modyo.challenge.pokeapi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class Specie {
-	private EvolutionChainURL evolution_chain;
+	
+	@JsonProperty("evolution_chain")
+	private EvolutionChainURL evolutionChain;
 
 }

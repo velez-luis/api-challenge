@@ -15,8 +15,11 @@ import com.modyo.challenge.dto.PokemonAPIResourceList;
 import com.modyo.challenge.dto.PokemonDetailedDTO;
 import com.modyo.challenge.pokeapi.service.impl.PokeServiceImpl;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/pokemon")
+@RequiredArgsConstructor
 public class PokemonController {
 
 	@Autowired

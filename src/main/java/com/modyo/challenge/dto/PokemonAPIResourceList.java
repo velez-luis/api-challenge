@@ -13,6 +13,5 @@ public class PokemonAPIResourceList {
     private String next;
     private String previous;
     private List<PokemonDTO> pokemons;
-//    private List<PokemonDetailed> pokemons;
-
+    
 }
