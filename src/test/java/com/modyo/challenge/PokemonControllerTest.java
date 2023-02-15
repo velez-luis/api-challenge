@@ -1,6 +1,8 @@
 package com.modyo.challenge;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -14,22 +16,26 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.modyo.challenge.dto.PokemonDetailedDTO;
+import com.modyo.challenge.pokeapi.service.impl.PokeServiceImpl;
 
 @WebMvcTest
 public class PokemonControllerTest {
 
+	@MockBean
+	private PokeServiceImpl pokeService;
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Test
 	public void testGetByIdOrName() throws Exception {
 
 		String idOrName = "snorlax";
-
 		PokemonDetailedDTO pokemonDetailedDTO = new PokemonDetailedDTO();
 		pokemonDetailedDTO.setId(143);
 		pokemonDetailedDTO.setName("snorlax");
@@ -72,18 +78,19 @@ public class PokemonControllerTest {
 		pokemonDetailedDTO.setDescription(descriptions);
 		pokemonDetailedDTO.setEvolutions(Collections.singletonList("snorlax"));
 
+		when(pokeService.getDetailedDTOByURL(anyString())
+		).thenReturn(pokemonDetailedDTO);
 
 		ResultActions response = mockMvc.perform(get("/pokemon/{id}", idOrName));
-		
-		response.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.id", is(pokemonDetailedDTO.getId())))
-		.andExpect(jsonPath("$.name", is(pokemonDetailedDTO.getName())))
-		.andExpect(jsonPath("$.photo", is(pokemonDetailedDTO.getPhoto())))
-		.andExpect(jsonPath("$.type[0]", is(pokemonDetailedDTO.getType().get(0))))
-		.andExpect(jsonPath("$.weight", is(pokemonDetailedDTO.getWeight())))
-		.andExpect(jsonPath("$.abilities[7]", is(pokemonDetailedDTO.getAbilities().get(7))))
-		.andExpect(jsonPath("$.description[3]", is(pokemonDetailedDTO.getDescription().get(3))))
-		.andExpect(jsonPath("$.evolutions[0]", is(pokemonDetailedDTO.getEvolutions().get(0))));
+
+		response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.id", is(pokemonDetailedDTO.getId())))
+				.andExpect(jsonPath("$.name", is(pokemonDetailedDTO.getName())))
+				.andExpect(jsonPath("$.photo", is(pokemonDetailedDTO.getPhoto())))
+				.andExpect(jsonPath("$.type[0]", is(pokemonDetailedDTO.getType().get(0))))
+				.andExpect(jsonPath("$.weight", is(pokemonDetailedDTO.getWeight())))
+				.andExpect(jsonPath("$.abilities[0]", is(pokemonDetailedDTO.getAbilities().get(0))))
+				.andExpect(jsonPath("$.description[0]", is(pokemonDetailedDTO.getDescription().get(0))))
+				.andExpect(jsonPath("$.evolutions[0]", is(pokemonDetailedDTO.getEvolutions().get(0))));
 	}
 
 }
